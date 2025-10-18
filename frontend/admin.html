@@ -1,30 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Panel - Child Care Residential School</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - CCRS School</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <header>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="notices.html">Notices</a>
+            <a href="index.html" class="logo"><span>CCRS School</span></a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="notices.html">Notice Board</a></li>
+                <li><a href="admin.html" class="active">Admin</a></li>
+            </ul>
         </nav>
     </header>
 
-    <main>
-        <h2>Upload Notice Image</h2>
-        <form id="upload-form">
-            <input type="file" id="notice-file" accept="image/*" required>
-            <input type="text" id="notice-title" placeholder="Notice Title" required>
-            <input type="date" id="notice-date" required>
-            <button type="submit">Upload</button>
-        </form>
-        <p id="upload-status"></p>
-    </main>
+    <main class="admin-container">
+        <h1>Admin Panel</h1>
+        <section class="form-section glass-effect">
+            <h2>Upload New Notice</h2>
+            <form id="notice-form">
+                <div class="form-group">
+                    <label for="headline">Headline</label>
+                    <input type="text" id="headline" placeholder="Enter notice headline" required>
+                </div>
+                <div class="form-group">
+                    <label for="notice-date">Date</label>
+                    <input type="date" id="notice-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="notice-image">Image</label>
+                    <input type="file" id="notice-image" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn">Upload Notice</button>
+            </form>
+            <div id="status-message" class="status-message"></div>
+        </section>
 
+        <section class="existing-notices">
+            <h2>Existing Notices</h2>
+            <div id="admin-notice-list">
+                <!-- Existing notices will be loaded here by JS -->
+            </div>
+        </section>
+    </main>
+    
     <script src="assets/js/admin.js"></script>
+    <script src="assets/js/app.js"></script> <!-- PWA রেজিস্ট্রেশনের জন্য -->
 </body>
 </html>

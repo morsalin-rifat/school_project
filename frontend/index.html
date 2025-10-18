@@ -1,59 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>SmartSchool - Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - CCRS School</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/home.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="manifest" href="manifest.json">
-    
-    <link rel="manifest" href="manifest.json">
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/service-worker.js')
-    .then(() => console.log('Service Worker Registered'));
-  }
-</script>
-
 </head>
 <body>
-    <!-- Navbar -->
     <header>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="notices.html">Notices</a>
-            <a href="admin.html">Admin Panel</a>
+            <a href="index.html" class="logo"><span>CCRS School</span></a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="notices.html">Notice Board</a></li>
+                <li><a href="admin.html" class="active">Admin</a></li>
+            </ul>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>Welcome to SmartSchool</h1>
-        <p>Modern, Digital & Interactive School Management</p>
-    </section>
+    <main class="admin-container">
+        <h1>Admin Panel</h1>
+        <section class="form-section glass-effect">
+            <h2>Upload New Notice</h2>
+            <form id="notice-form">
+                <div class="form-group">
+                    <label for="headline">Headline</label>
+                    <input type="text" id="headline" placeholder="Enter notice headline" required>
+                </div>
+                <div class="form-group">
+                    <label for="notice-date">Date</label>
+                    <input type="date" id="notice-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="notice-image">Image</label>
+                    <input type="file" id="notice-image" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn">Upload Notice</button>
+            </form>
+            <div id="status-message" class="status-message"></div>
+        </section>
 
-    <!-- About Section -->
-    <section class="about">
-        <h2>About Our School</h2>
-        <p>Our mission is to provide a modern and interactive learning environment for all students.</p>
-    </section>
-
-    <!-- Preview Notices -->
-    <section>
-    <h2>Recent Notices</h2>
-    <div class="notice-container" id="recent-notices">
-        
-    </div>
-
-<script src="assets/js/home.js"></script>
-
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2025 SmartSchool. All rights reserved.</p>
-    </footer>
-
-    <script src="assets/js/app.js"></script>
+        <section class="existing-notices">
+            <h2>Existing Notices</h2>
+            <div id="admin-notice-list">
+                <!-- Existing notices will be loaded here by JS -->
+            </div>
+        </section>
+    </main>
+    
+    <script src="assets/js/admin.js"></script>
+    <script src="assets/js/app.js"></script> <!-- PWA রেজিস্ট্রেশনের জন্য -->
 </body>
 </html>

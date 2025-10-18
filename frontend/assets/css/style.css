@@ -1,0 +1,27 @@
+/* Common styles */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(to bottom, #87CEEB, #F8F9FA);
+    color: #343A40;
+}
+
+header {
+    background: #1E90FF;
+    padding: 10px 20px;
+    color: white;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #1E90FF;
+    color: white;
+}

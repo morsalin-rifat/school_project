@@ -1,0 +1,30 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: #f0f4f8;
+    color: #333;
+}
+
+header {
+    background: #1E90FF;
+    padding: 10px 20px;
+    color: white;
+}
+
+header nav a {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+main {
+    padding: 20px;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #1E90FF;
+    color: white;
+}

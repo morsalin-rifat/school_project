@@ -1,0 +1,22 @@
+frontend/
+│
+├── index.html             # Home page
+├──            # Notice Board page
+├── admin.html             # Admin Panel UI (login বাদ)
+│
+├── assets/
+│   ├── css/
+│   │    ├── style.css          # Common styles (header, footer, typography)
+│   │    ├── home.css           # Home page specific styles
+│   │    ├── notices.css        # Notice Board specific
+│   │    └── admin.css          # Admin Panel specific
+│   │
+│   └── js/
+│        ├── app.js             # Common JS (navbar, utilities)
+│        ├── notices.js         # Notice Board JS (fetch/display notices)
+│        └── admin.js           # Admin Panel JS (form interactions)
+│
+├── images/                   # School logo, banners, notice thumbnails
+│
+├── manifest.json             # PWA manifest
+└── service-worker.js         # PWA service worker

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartSchool - Home</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/home.css">
+    <link rel="manifest" href="manifest.json">
+    
+    <link rel="manifest" href="manifest.json">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+    .then(() => console.log('Service Worker Registered'));
+  }
+</script>
+
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="notices.html">Notices</a>
+            <a href="admin.html">Admin Panel</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Welcome to SmartSchool</h1>
+        <p>Modern, Digital & Interactive School Management</p>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <h2>About Our School</h2>
+        <p>Our mission is to provide a modern and interactive learning environment for all students.</p>
+    </section>
+
+    <!-- Preview Notices -->
+    <section>
+    <h2>Recent Notices</h2>
+    <div class="notice-container" id="recent-notices">
+        
+    </div>
+
+<script src="assets/js/home.js"></script>
+
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 SmartSchool. All rights reserved.</p>
+    </footer>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

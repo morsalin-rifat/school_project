@@ -1,46 +1,124 @@
-.notice-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+/* === Notice Grid Layout === */
+.notice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
 }
 
-.notice-frame {
-    width: 180px;
-    padding: 10px;
-    border: 8px solid #8B4513;
-    border-radius: 15px;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(6px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-    text-align: center;
+/* === Notice Card (Wooden + Glass Frame) === */
+.notice-card {
+    position: relative;
+    border: 10px solid transparent;
+    border-image: url('https://www.transparenttextures.com/patterns/wood-pattern.png'); /* Wooden texture for border */
+    border-image-slice: 20;
+    border-image-repeat: round;
+    background-color: #333; /* Fallback */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(0,0,0,0.4);
+    overflow: hidden;
     cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.notice-frame:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.5);
+.notice-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7), 0 0 20px var(--accent-color);
 }
 
-.notice-frame img {
+.notice-card__image {
     width: 100%;
-    border-radius: 10px;
+    height: 200px; /* Fixed height for uniform size */
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
 }
 
-/* Modal / Lightbox */
-#modal {
-    display: none;
+.notice-card:hover .notice-card__image {
+    transform: scale(1.1);
+}
+
+.notice-card__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Pushes content to the bottom */
+}
+
+.notice-card__header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: #fff;
+    text-shadow: 1px 1px 3px #000;
+}
+
+.notice-card__headline {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.notice-card__date {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+
+/* === Image Modal (Lightbox) === */
+.modal {
+    display: none; /* Hidden by default */
     position: fixed;
-    z-index: 1000;
-    left:0; top:0; width:100%; height:100%;
-    background: rgba(0,0,0,0.8);
-    justify-content: center;
-    align-items: center;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(5px);
 }
 
-#modal img {
+.modal-content {
+    margin: auto;
+    display: block;
     max-width: 90%;
-    max-height: 90%;
-    border-radius: 10px;
+    max-height: 85%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.7);
+    animation: zoomIn 0.3s forwards;
+}
+
+@keyframes zoomIn {
+    to {
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #bbb;
+    text-decoration: none;
 }

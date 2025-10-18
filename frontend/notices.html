@@ -1,27 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>Child Care Residential School - Notice Board</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notice Board - CCRS School</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/notices.css">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <header>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="notices.html">Notices</a>
-            <a href="admin.html">Admin Panel</a>
+            <a href="index.html" class="logo"><span>CCRS School</span></a>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="notices.html" class="active">Notice Board</a></li>
+                <li><a href="admin.html">Admin</a></li>
+            </ul>
         </nav>
     </header>
 
     <main>
-        <h2>Notice Board</h2>
-        <div class="notice-container" id="notice-board">
-            <!-- Notices will appear here -->
-        </div>
+        <section class="notice-board-section">
+            <h1>Notice Board</h1>
+            <div id="notice-board-grid" class="notice-grid">
+                <!-- Notices will be dynamically inserted here by JavaScript -->
+            </div>
+        </section>
     </main>
 
+    <!-- Modal for viewing full image -->
+    <div id="image-modal" class="modal">
+        <span class="close-button">&times;</span>
+        <img class="modal-content" id="modal-image" alt="Full Notice Image">
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 Child Care Residential School. All Rights Reserved.</p>
+    </footer>
+
     <script src="assets/js/notices.js"></script>
+    <script src="assets/js/app.js"></script>
 </body>
 </html>

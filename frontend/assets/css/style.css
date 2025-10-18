@@ -1,27 +1,117 @@
-/* Common styles */
-body {
+/* === Google Fonts === */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* === CSS Variables === */
+:root {
+    --primary-color: #8A2BE2; /* Purple */
+    --secondary-color: #4169E1; /* Royal Blue */
+    --accent-color: #00BFFF; /* Deep Sky Blue */
+    --background-color: #0c0a1f; /* Dark Blue/Purple Background */
+    --text-color: #f0f0f0;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+/* === Basic Reset === */
+* {
     margin: 0;
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(to bottom, #87CEEB, #F8F9FA);
-    color: #343A40;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    background-image: linear-gradient(135deg, #1a1a3e 0%, #0c0a1f 100%);
+    min-height: 100vh;
+}
+
+/* === Header & Navigation === */
 header {
-    background: #1E90FF;
-    padding: 10px 20px;
-    color: white;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-header nav a {
-    color: white;
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
     text-decoration: none;
-    margin-right: 20px;
-    font-weight: bold;
+    color: var(--text-color);
+    letter-spacing: 1px;
 }
 
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+    color: var(--accent-color);
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+    width: 100%;
+}
+
+/* === Footer === */
 footer {
     text-align: center;
-    padding: 15px;
-    background: #1E90FF;
-    color: white;
+    padding: 2rem;
+    margin-top: 4rem;
+    background: var(--glass-bg);
+    border-top: 1px solid var(--glass-border);
+}
+
+/* === Main Container === */
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+/* === Section Title === */
+h1, h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #fff;
+    font-weight: 600;
+    text-shadow: 0 0 10px var(--accent-color);
 }

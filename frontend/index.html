@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - CCRS School</title>
+    <title>Home - Child Care Residential School</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Global Stylesheet -->
     <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/admin.css">
+    
+    <!-- Page-Specific Stylesheets -->
+    <link rel="stylesheet" href="assets/css/notices.css"> <!-- Notice card style reuse -->
+    <link rel="stylesheet" href="assets/css/home.css"> <!-- নতুন যোগ করা হয়েছে -->
+    
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
@@ -13,44 +21,87 @@
         <nav>
             <a href="index.html" class="logo"><span>CCRS School</span></a>
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="notices.html">Notice Board</a></li>
-                <li><a href="admin.html" class="active">Admin</a></li>
+                <li><a href="admin.html">Admin</a></li>
             </ul>
         </nav>
     </header>
 
-    <main class="admin-container">
-        <h1>Admin Panel</h1>
-        <section class="form-section glass-effect">
-            <h2>Upload New Notice</h2>
-            <form id="notice-form">
-                <div class="form-group">
-                    <label for="headline">Headline</label>
-                    <input type="text" id="headline" placeholder="Enter notice headline" required>
+    <main>
+        <!-- 1. Hero Section -->
+        <section class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="hero-title">Child Care Residential School</h1>
+                <p class="hero-subtitle">A Home for Learning, Growth, and Excellence</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn-primary">Admission Inquiry</a>
+                    <a href="#" class="btn-secondary">Explore Campus</a>
                 </div>
-                <div class="form-group">
-                    <label for="notice-date">Date</label>
-                    <input type="date" id="notice-date" required>
-                </div>
-                <div class="form-group">
-                    <label for="notice-image">Image</label>
-                    <input type="file" id="notice-image" accept="image/*" required>
-                </div>
-                <button type="submit" class="btn">Upload Notice</button>
-            </form>
-            <div id="status-message" class="status-message"></div>
+            </div>
         </section>
 
-        <section class="existing-notices">
-            <h2>Existing Notices</h2>
-            <div id="admin-notice-list">
-                <!-- Existing notices will be loaded here by JS -->
+        <!-- 2. Recent Notices Section -->
+        <section class="home-section">
+            <h2 class="section-title">Latest News & Notices</h2>
+            <div class="horizontal-scroll-container">
+                <div id="recent-notices-container" class="notice-grid-horizontal">
+                    <!-- Recent notices will be dynamically inserted here -->
+                </div>
+            </div>
+            <div class="view-all-link">
+                <a href="notices.html">View All Notices &rarr;</a>
+            </div>
+        </section>
+
+        <!-- 3. Key Features Section -->
+        <section class="home-section">
+            <h2 class="section-title">Our Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card glass-effect">
+                    <i class="fas fa-chalkboard-teacher feature-icon"></i>
+                    <h3>Qualified Teachers</h3>
+                    <p>Experienced educators dedicated to nurturing each child's potential.</p>
+                </div>
+                <div class="feature-card glass-effect">
+                    <i class="fas fa-flask feature-icon"></i>
+                    <h3>Modern Labs</h3>
+                    <p>State-of-the-art science and computer labs for hands-on learning.</p>
+                </div>
+                <div class="feature-card glass-effect">
+                    <i class="fas fa-futbol feature-icon"></i>
+                    <h3>Sports Facilities</h3>
+                    <p>Encouraging physical fitness and teamwork through diverse sports.</p>
+                </div>
+                <div class="feature-card glass-effect">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <h3>24/7 Security</h3>
+                    <p>A safe and secure campus with constant surveillance and care.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Upcoming Events Section -->
+        <section class="home-section">
+            <h2 class="section-title">Upcoming Events</h2>
+            <div id="events-container" class="events-list">
+                <!-- Events will be inserted here by JS -->
             </div>
         </section>
     </main>
-    
-    <script src="assets/js/admin.js"></script>
-    <script src="assets/js/app.js"></script> <!-- PWA রেজিস্ট্রেশনের জন্য -->
+
+    <!-- Modal for viewing full image (reused from notices page) -->
+    <div id="image-modal" class="modal">
+        <span class="close-button">&times;</span>
+        <img class="modal-content" id="modal-image" alt="Full Notice Image">
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Child Care Residential School. All Rights Reserved.</p>
+    </footer>
+
+    <script src="assets/js/home.js"></script>
+    <script src="assets/js/app.js"></script>
 </body>
 </html>

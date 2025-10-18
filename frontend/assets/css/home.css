@@ -1,37 +1,202 @@
-/* Hero Section */
-.hero {
-    text-align: center;
-    padding: 80px 20px;
-    background: linear-gradient(135deg, #1E90FF, #87CEEB, #8A2BE2);
-    color: white;
-    border-bottom-left-radius: 50px;
-    border-bottom-right-radius: 50px;
-}
+/* === Home Page Specific Styles === */
 
-.hero h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    font-size: 20px;
-}
-
-/* About Section */
-.about {
-    padding: 40px 20px;
-    text-align: center;
-}
-
-/* Preview Notices Section */
-.preview-notices {
-    padding: 40px 20px;
-    text-align: center;
-}
-
-.notice-container {
+/* 1. Hero Section */
+.hero-section {
+    position: relative;
+    height: 80vh;
     display: flex;
+    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
+    text-align: center;
+    color: white;
+    background: url('https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=2072&auto=format&fit=crop') no-repeat center center/cover;
+    /* আপনি এখানে আপনার স্কুলের ছবি ব্যবহার করবেন */
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(74, 0, 224, 0.6), rgba(142, 45, 226, 0.4));
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem); /* Responsive font size */
+    font-weight: 700;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    font-weight: 400;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+}
+
+.hero-buttons .btn-primary, .hero-buttons .btn-secondary {
+    text-decoration: none;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    margin: 0.5rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: var(--background-color);
+}
+
+.btn-primary:hover {
+    background: white;
+    transform: translateY(-3px);
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 2px solid var(--accent-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: var(--accent-color);
+    color: var(--background-color);
+    transform: translateY(-3px);
+}
+
+/* Common Section Styling */
+.home-section {
+    padding: 4rem 0;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* 2. Recent Notices Section */
+.horizontal-scroll-container {
+    overflow-x: auto;
+    padding-bottom: 1.5rem; /* For scrollbar space */
+}
+.notice-grid-horizontal {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.5rem;
+    width: max-content; /* Allows container to expand */
+}
+/* Scrollbar styling */
+.horizontal-scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+.horizontal-scroll-container::-webkit-scrollbar-track {
+    background: var(--glass-bg);
+}
+.horizontal-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+.view-all-link {
+    text-align: right;
+    margin-top: 1rem;
+}
+.view-all-link a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* 3. Key Features Section */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 2.5rem 1.5rem;
+    border-radius: 15px;
+    border: 1px solid var(--glass-border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px rgba(142, 45, 226, 0.4);
+    border-color: var(--primary-color);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    color: var(--accent-color);
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+}
+
+.feature-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+/* 4. Upcoming Events Section */
+.events-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.event-item {
+    display: flex;
+    align-items: center;
+    background: var(--glass-bg);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-left: 5px solid var(--accent-color);
+}
+.event-date {
+    text-align: center;
+    margin-right: 1.5rem;
+    color: #fff;
+}
+.event-date span {
+    display: block;
+}
+.event-date .month {
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.event-date .day {
+    font-size: 2rem;
+    font-weight: 700;
+}
+.event-details h3 {
+    font-size: 1.25rem;
+    color: #fff;
+}
+.event-details p {
+    color: var(--text-color);
+    opacity: 0.8;
 }

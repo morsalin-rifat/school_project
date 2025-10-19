@@ -1,117 +1,108 @@
+// assets/js/notices.js
+
 document.addEventListener('DOMContentLoaded', () => {
     const noticeBoardGrid = document.getElementById('notice-board-grid');
     const modal = document.getElementById('image-modal');
     const modalImage = document.getElementById('modal-image');
     const closeButton = document.querySelector('.close-button');
 
-    const NOTICE_STORAGE_KEY = 'schoolNotices';
+    // --- আমাদের নতুন লাইভ API URL ---
+    const API_URL = 'https://school-backend-4gvr.onrender.com/api/notices/';
 
-    // --- কাল্পনিক ডেটা (Dummy Data) ---
-    // অ্যাডমিন প্যানেল তৈরি হওয়ার পর এই অংশটি মুছে ফেলা হবে।
-    const dummyNotices = [
-        {
-            id: 1,
-            headline: 'Annual Sports Day 2024',
-            date: '2024-08-15',
-            image: 'https://via.placeholder.com/600x400/8A2BE2/FFFFFF?text=Sports+Day'
-        },
-        {
-            id: 2,
-            headline: 'Science Fair Exhibition',
-            date: '2024-08-10',
-            image: 'https://via.placeholder.com/600x400/4169E1/FFFFFF?text=Science+Fair'
-        },
-        {
-            id: 3,
-            headline: 'Parent-Teacher Meeting',
-            date: '2024-08-05',
-            image: 'https://via.placeholder.com/600x400/00BFFF/FFFFFF?text=Meeting'
-        },
-        {
-            id: 4,
-            headline: 'Admission Open for 2025',
-            date: '2024-08-01',
-            image: 'https://via.placeholder.com/600x400/9370DB/FFFFFF?text=Admission'
-        },
-         {
-            id: 5,
-            headline: 'Art Competition Results',
-            date: '2024-07-28',
-            image: 'https://via.placeholder.com/600x400/6A5ACD/FFFFFF?text=Art+Results'
-        },
-        {
-            id: 6,
-            headline: 'School Picnic Announcement',
-            date: '2024-07-25',
-            image: 'https://via.placeholder.com/600x400/483D8B/FFFFFF?text=Picnic'
+    // --- ডেটা লোড করার নতুন ফাংশন (API থেকে) ---
+    const fetchNotices = async () => {
+        // ডেটা লোড হওয়ার সময় একটি লোডিং বার্তা দেখানো যেতে পারে
+        if (noticeBoardGrid) {
+            noticeBoardGrid.innerHTML = '<p class="loading-message">Loading notices...</p>';
         }
-    ];
-    // --- কাল্পনিক ডেটা শেষ ---
 
-    // ডেটা লোড করার ফাংশন (ভবিষ্যতে API কল দিয়ে রিপ্লেস হবে)
-    const fetchNotices = () => {
-        const storedNotices = JSON.parse(localStorage.getItem(NOTICE_STORAGE_KEY));
-        
-        // যদি localStorage-এ ডেটা থাকে, সেটা ব্যবহার করবে, নাহলে কাল্পনিক ডেটা দেখাবে
-        if (storedNotices && storedNotices.length > 0) {
-            return storedNotices;
-        } else {
-            // ডিজাইন পরীক্ষার জন্য কাল্পনিক ডেটা ব্যবহার
-            return dummyNotices;
+        try {
+            const response = await fetch(API_URL);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const notices = await response.json();
+            return notices;
+        } catch (error) {
+            console.error("Could not fetch notices:", error);
+            // Error হলে একটি বার্তা দেখানো
+            if (noticeBoardGrid) {
+                noticeBoardGrid.innerHTML = '<p class="error-message">Failed to load notices. Please try again later.</p>';
+            }
+            return []; // খালি অ্যারে রিটার্ন করা
         }
     };
 
-    // নোটিশ কার্ড তৈরি এবং পেজে যোগ করার ফাংশন
+    // --- নোটিশ কার্ড তৈরি এবং পেজে যোগ করার ফাংশন (আগের মতোই) ---
     const renderNotices = (notices) => {
         if (!noticeBoardGrid) return;
-        noticeBoardGrid.innerHTML = ''; // আগের নোটিশ মুছে ফেলুন
+        noticeBoardGrid.innerHTML = ''; // লোডিং বার্তা মুছে ফেলুন
 
-        if (notices.length === 0) {
-            noticeBoardGrid.innerHTML = '<p class="no-notices">No notices to display at the moment.</p>';
+        if (!notices || notices.length === 0) {
+            noticeBoardGrid.innerHTML = '<p class="no-notices-message">No notices to display at the moment.</p>';
             return;
         }
+        
+        // নতুন নোটিশগুলো আগে দেখানোর জন্য ডেটা সর্ট করা (ঐচ্ছিক)
+        notices.sort((a, b) => new Date(b.date) - new Date(a.date));
 
         notices.forEach(notice => {
             const noticeCard = document.createElement('div');
             noticeCard.className = 'notice-card';
-            noticeCard.dataset.image = notice.image; // ছবির URL ডেটাসেটে সেভ করা
 
-            const formattedDate = new Date(notice.date).toLocaleDateString('en-GB', {
+            // Firebase থেকে আসা ফিল্ডের নামগুলো ব্যবহার করা হচ্ছে (imageUrl, headline, date)
+            const imageUrl = notice.imageUrl || 'https://via.placeholder.com/600x400/CCCCCC/FFFFFF?text=No+Image';
+            const headline = notice.headline || 'No Title';
+            const date = notice.date || '';
+
+            const formattedDate = new Date(date).toLocaleDateString('en-GB', {
                 day: 'numeric', month: 'long', year: 'numeric'
             });
 
             noticeCard.innerHTML = `
-                <img src="${notice.image}" alt="${notice.headline}" class="notice-card__image">
+                <img src="${imageUrl}" alt="${headline}" class="notice-card__image">
                 <div class="notice-card__header">
-                    <h3 class="notice-card__headline">${notice.headline}</h3>
+                    <h3 class="notice-card__headline">${headline}</h3>
                     <p class="notice-card__date">${formattedDate}</p>
                 </div>
             `;
 
             // কার্ডে ক্লিক করলে modal খুলবে
             noticeCard.addEventListener('click', () => {
-                modal.style.display = 'block';
-                modalImage.src = notice.image;
+                if (modal && modalImage) {
+                    modal.style.display = 'block';
+                    modalImage.src = imageUrl;
+                }
             });
 
             noticeBoardGrid.appendChild(noticeCard);
         });
     };
 
-    // Modal বন্ধ করার ফাংশন
+    // --- Modal বন্ধ করার ফাংশন (আগের মতোই) ---
     const closeModal = () => {
-        modal.style.display = 'none';
-        modalImage.src = ''; // রিসোর্স খালি করা
+        if (modal) {
+            modal.style.display = 'none';
+            modalImage.src = '';
+        }
     };
 
-    closeButton.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) { // শুধুমাত্র বাইরের ধূসর অংশে ক্লিক করলে বন্ধ হবে
-            closeModal();
-        }
-    });
+    if (closeButton) {
+        closeButton.addEventListener('click', closeModal);
+    }
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    }
+    
+    // --- ইনিশিয়ালাইজেশন: API থেকে ডেটা এনে পেজ রেন্ডার করা ---
+    const initializePage = async () => {
+        const noticesData = await fetchNotices();
+        renderNotices(noticesData);
+    };
 
-    // ইনিশিয়ালাইজেশন
-    const allNotices = fetchNotices();
-    renderNotices(allNotices);
+    initializePage();
 });

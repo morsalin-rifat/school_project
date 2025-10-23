@@ -1,114 +1,25 @@
-/* Admin Page Specific Styles */
-.admin-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 1rem;
-}
-
-.form-section {
-    padding: 2rem;
-    margin-bottom: 2rem;
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.glass-effect {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-}
-
-.form-section h2 {
-    text-align: center;
-    color: #fff;
-    margin-bottom: 1.5rem;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-}
-
-.form-group {
-    margin-bottom: 1.25rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #f0f0f0;
-}
-
-.form-group input[type="text"],
-.form-group input[type="date"],
-.form-group input[type="file"] {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-sizing: border-box;
-    background: rgba(255, 255, 255, 0.8);
-    color: #333;
-}
-
-.form-group input[type="file"] {
-    padding: 0.5rem;
-}
-
-.btn {
-    display: block;
-    width: 100%;
-    padding: 0.9rem;
-    background: linear-gradient(45deg, #8e2de2, #4a00e0); /* Purple Gradient */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
+/* assets/css/admin.css */
+/* ... (আগের কোড) ... */
 .status-message {
     text-align: center;
     margin-top: 1rem;
     font-weight: bold;
+    padding: 0.8rem;
+    border-radius: 5px;
+    display: none; /* প্রাথমিকভাবে লুকানো থাকবে */
 }
-
-.existing-notices h2 {
-    text-align: center;
+.status-message.loading {
+    display: block;
+    background: rgba(255, 255, 0, 0.2);
     color: #fff;
 }
-
-#admin-notice-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 1rem;
-    margin-top: 1.5rem;
+.status-message.success {
+    display: block;
+    background: rgba(76, 175, 80, 0.3);
+    color: #98fb98;
 }
-
-.admin-notice-item {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 8px;
-    padding: 0.5rem;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.admin-notice-item img {
-    width: 100%;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 5px;
-}
-
-.admin-notice-item p {
-    font-size: 0.9rem;
-    margin: 0.5rem 0;
-    color: #333;
-    font-weight: 500;
+.status-message.error {
+    display: block;
+    background: rgba(244, 67, 54, 0.3);
+    color: #ff8a80;
 }

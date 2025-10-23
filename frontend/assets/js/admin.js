@@ -1,52 +1,18 @@
+// assets/js/admin.js
 document.addEventListener('DOMContentLoaded', () => {
     const noticeForm = document.getElementById('notice-form');
     const headlineInput = document.getElementById('headline');
     const dateInput = document.getElementById('notice-date');
     const imageInput = document.getElementById('notice-image');
     const statusMessage = document.getElementById('status-message');
-    const adminNoticeList = document.getElementById('admin-notice-list');
+    const uploadBtn = document.getElementById('upload-btn');
     
-    const NOTICE_STORAGE_KEY = 'schoolNotices';
+    // --- আপনার ImgBB API কী এখানে পেস্ট করুন ---
+    const IMGBB_API_KEY = '867bd2bca9c9325ed6e9b4dcbd5503bf';
     
-    // ডেটা লোড করার ফাংশন (ভবিষ্যতে API কল দিয়ে রিপ্লেস হবে)
-    const getNotices = () => {
-        return JSON.parse(localStorage.getItem(NOTICE_STORAGE_KEY)) || [];
-    };
+    // --- আমাদের লাইভ Django API URL ---
+    const DJANGO_API_URL = 'https://school-backend-4gvr.onrender.com/api/notices/';
     
-    // ডেটা সেভ করার ফাংশন (ভবিষ্যতে API কল দিয়ে রিপ্লেস হবে)
-    const saveNotices = (notices) => {
-        localStorage.setItem(NOTICE_STORAGE_KEY, JSON.stringify(notices));
-    };
-    
-    // ছবিকে Base64 স্ট্রিং-এ রূপান্তর করার ফাংশন
-    const toBase64 = file => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = error => reject(error);
-    });
-    
-    // অ্যাডমিন পেজে বিদ্যমান নোটিশ দেখানোর ফাংশন
-    const displayAdminNotices = () => {
-        const notices = getNotices();
-        adminNoticeList.innerHTML = ''; // তালিকা পরিষ্কার করুন
-        if (notices.length === 0) {
-            adminNoticeList.innerHTML = '<p style="color: #fff; text-align: center; grid-column: 1 / -1;">No notices found.</p>';
-            return;
-        }
-        
-        notices.forEach(notice => {
-            const noticeEl = document.createElement('div');
-            noticeEl.className = 'admin-notice-item';
-            noticeEl.innerHTML = `
-                <img src="${notice.image}" alt="Notice thumbnail">
-                <p>${notice.headline}</p>
-            `;
-            adminNoticeList.appendChild(noticeEl);
-        });
-    };
-    
-    // ফর্ম সাবমিট হ্যান্ডেল করার ফাংশন
     noticeForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -55,45 +21,68 @@ document.addEventListener('DOMContentLoaded', () => {
         const imageFile = imageInput.files[0];
         
         if (!headline || !date || !imageFile) {
-            statusMessage.textContent = 'Please fill all fields.';
-            statusMessage.style.color = 'red';
+            showStatus('Please fill all fields.', 'error');
             return;
         }
         
-        statusMessage.textContent = 'Uploading...';
-        statusMessage.style.color = 'white';
+        // বাটন ডিজেবল করুন এবং লোডিং টেক্সট দেখান
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = 'Uploading... Please wait...';
+        showStatus('Uploading image to ImgBB...', 'loading');
+        
+        // --- ধাপ ১: ImgBB-তে ছবি আপলোড ---
+        const formData = new FormData();
+        formData.append('image', imageFile);
         
         try {
-            const imageBase64 = await toBase64(imageFile);
+            const imgbbResponse = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+                method: 'POST',
+                body: formData,
+            });
             
-            const newNotice = {
-                id: Date.now(),
+            if (!imgbbResponse.ok) {
+                throw new Error('Image upload to ImgBB failed.');
+            }
+            
+            const imgbbResult = await imgbbResponse.json();
+            const imageUrl = imgbbResult.data.url;
+            
+            showStatus('Image uploaded! Now saving notice...', 'loading');
+            
+            // --- ধাপ ২: Django API-তে ডেটা পাঠানো ---
+            const noticeData = {
                 headline: headline,
                 date: date,
-                image: imageBase64
+                imageUrl: imageUrl,
             };
             
-            const notices = getNotices();
-            notices.unshift(newNotice); // নতুন নোটিশ প্রথমে যোগ হবে
-            saveNotices(notices);
+            const djangoResponse = await fetch(DJANGO_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(noticeData),
+            });
             
-            statusMessage.textContent = 'Notice uploaded successfully!';
-            statusMessage.style.color = 'lightgreen';
+            if (!djangoResponse.ok) {
+                throw new Error('Failed to save notice to the server.');
+            }
+            
+            showStatus('Notice uploaded successfully!', 'success');
             noticeForm.reset();
             
-            displayAdminNotices(); // তালিকা রিফ্রেশ করুন
-            
-            setTimeout(() => {
-                statusMessage.textContent = '';
-            }, 3000);
-            
         } catch (error) {
-            console.error('Error processing image:', error);
-            statusMessage.textContent = 'Failed to upload image. Please try again.';
-            statusMessage.style.color = 'red';
+            console.error('Upload failed:', error);
+            showStatus(`Upload failed: ${error.message}`, 'error');
+        } finally {
+            // বাটন আবার এনাবল করুন
+            uploadBtn.disabled = false;
+            uploadBtn.textContent = 'Upload Notice';
         }
     });
     
-    // পেজ লোড হওয়ার সাথে সাথে বিদ্যমান নোটিশগুলো দেখান
-    displayAdminNotices();
+    function showStatus(message, type) {
+        statusMessage.textContent = message;
+        statusMessage.className = `status-message ${type}`; // success, error, loading
+    }
 });

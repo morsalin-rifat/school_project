@@ -6,7 +6,6 @@
     <title>Admin Panel - CCRS School</title>
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/admin.css">
-    <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <header>
@@ -37,20 +36,12 @@
                     <label for="notice-image">Image</label>
                     <input type="file" id="notice-image" accept="image/*" required>
                 </div>
-                <button type="submit" class="btn">Upload Notice</button>
+                <button type="submit" class="btn" id="upload-btn">Upload Notice</button>
             </form>
             <div id="status-message" class="status-message"></div>
-        </section>
-
-        <section class="existing-notices">
-            <h2>Existing Notices</h2>
-            <div id="admin-notice-list">
-                <!-- Existing notices will be loaded here by JS -->
-            </div>
         </section>
     </main>
     
     <script src="assets/js/admin.js"></script>
-    <script src="assets/js/app.js"></script> <!-- PWA রেজিস্ট্রেশনের জন্য -->
 </body>
 </html>

@@ -1,56 +1,80 @@
-// assets/js/admin.js (Final Version for UI)
-
+// assets/js/admin.js (Logic for Video UI)
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Element Selections ---
+    const menuBtn = document.querySelector('.menu-btn');
+    const closeBtn = document.querySelector('.close-btn');
     const sidebar = document.querySelector('.sidebar');
-    const toggle = document.querySelector('.toggle');
-    const mainContent = document.querySelector('.main-content');
+    const overlay = document.querySelector('.sidebar-overlay');
     const navLinks = document.querySelectorAll('.nav-link');
-    const innerWrapper = document.querySelector('.main-content-inner-wrapper');
+    const contentWrapper = document.querySelector('.content-wrapper');
     const headerTitle = document.getElementById('header-title');
     
-    // --- Sidebar Toggle Functionality ---
-    if (toggle && sidebar && mainContent) {
-        toggle.addEventListener('click', () => {
-            sidebar.classList.toggle('close');
-        });
-    }
+    // --- Sidebar Toggle Logic ---
+    const toggleSidebar = () => {
+        sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+    };
     
-    // --- Navigation with Sliding Effect ---
-    if (navLinks.length > 0 && innerWrapper) {
-        navLinks.forEach((link, index) => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // 1. Update active link style
-                navLinks.forEach(item => item.classList.remove('active'));
-                link.classList.add('active');
-                
-                // 2. Calculate and apply the slide
-                const slideAmount = -index * 100;
-                innerWrapper.style.transform = `translateX(${slideAmount}%)`;
-                
-                // 3. Update the header title dynamically
-                const titleText = link.querySelector('.text').textContent;
-                if (headerTitle) {
-                    headerTitle.textContent = titleText;
-                }
-            });
-        });
-    }
+    if (menuBtn) menuBtn.addEventListener('click', toggleSidebar);
+    if (closeBtn) closeBtn.addEventListener('click', toggleSidebar);
+    if (overlay) overlay.addEventListener('click', toggleSidebar);
     
-    // --- Placeholder for Notice Management Logic ---
-    // The actual logic for notice upload, list, and delete will be added here.
-    // This is just to ensure the UI is ready and bug-free.
-    const noticeForm = document.getElementById('notice-form');
-    if (noticeForm) {
-        noticeForm.addEventListener('submit', (e) => {
+    // --- Page/Section Loading Logic ---
+    const loadSection = (targetId) => {
+        if (!contentWrapper) return;
+        
+        // Add fade-out animation
+        contentWrapper.classList.add('fade-out');
+        
+        setTimeout(() => {
+            const template = document.getElementById(`template-${targetId}`);
+            if (template) {
+                contentWrapper.innerHTML = template.innerHTML;
+                // Trigger fade-in animation
+                contentWrapper.classList.remove('fade-out');
+                
+                // Re-run any scripts needed for the new content
+                initializeNoticeManagement();
+            }
+        }, 300); // Wait for fade-out animation to finish
+    };
+    
+    // --- Navigation Click Handling ---
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
             e.preventDefault();
-            // This is a placeholder alert. We will replace this with our API call logic.
-            const uploadStatus = document.getElementById('upload-status');
-            uploadStatus.textContent = 'Notice management functionality is being implemented.';
-            uploadStatus.className = 'status-message loading'; // Use 'loading' style for info
+            
+            navLinks.forEach(item => item.classList.remove('active'));
+            link.classList.add('active');
+            
+            const targetId = link.dataset.target;
+            const titleText = link.querySelector('.text').textContent;
+            
+            if (headerTitle) headerTitle.textContent = titleText;
+            
+            loadSection(targetId);
+            toggleSidebar(); // Close sidebar after selection
         });
-    }
+    });
     
+    // --- Initialize Page ---
+    // Load the default section on page load
+    loadSection('dashboard-overview');
+    
+    // --- Notice Management Logic (will be initialized after content load) ---
+    function initializeNoticeManagement() {
+        const noticeForm = document.getElementById('notice-form');
+        if (noticeForm) {
+            // Placeholder for form submission
+            noticeForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Notice upload functionality is being implemented.');
+            });
+            
+            // Placeholder for loading existing notices
+            const noticeList = document.getElementById('existing-notices-list');
+            if (noticeList) {
+                // This is where we will fetch and display notices
+            }
+        }
+    }
 });
